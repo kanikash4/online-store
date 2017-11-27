@@ -8,6 +8,6 @@ var request = require('supertest');
  * 
  */
 
-describe('Gift Card Prevalidation', function(){
+describe('Wingify Test cases', function(){
     this.timeout(10000);
 });

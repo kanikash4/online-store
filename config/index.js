@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  db : require('./db')
+  db : require('./db'),
+  passport : require('./passport')
 };

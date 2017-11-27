@@ -2,16 +2,44 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var session  = require('express-session');
+var cookieParser = require('cookie-parser');
 var http = require('http');
 var routes = require('./src/routes');
 var app = express();
+var passport = require('passport');
 
 app.set('port', process.env.PORT || 3001);
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-routes(app);
+
+/**
+ * Connect to db
+ */
+
+require('./config/passport')(passport); // pass passport for configuration
+
+
+/**
+ * Passport
+ */
+
+app.use(session({
+	secret: 'runningWingifyAssignment',
+	resave: true,
+	saveUninitialized: true
+ } )); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+
+
+/**
+ * Load routes and pass in our app and fully configured passport
+ */
+routes(app, passport);
 
 /**
  * Create HTTP server.
